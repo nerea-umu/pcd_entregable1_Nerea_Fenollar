@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.1">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>300</x>
+      <y>654</y>
+      <w>60</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>MiImperio</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>198</x>
+      <y>258</y>
+      <w>72</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Nave estelar
+--
++ tripulacion : int
++ pasaje : int
++ clase : enum</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>54</x>
+      <y>258</y>
+      <w>78</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Estacion
+--
++ tripulacion : int
++ pasaje : int
++ ubicacion : enum</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>330</x>
+      <y>258</y>
+      <w>66</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Caza
+--
++ dotacion : int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>186</x>
+      <y>462</y>
+      <w>90</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>Nave
+--
++ nombre : str
++ piezas : list</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>408</x>
+      <y>330</y>
+      <w>72</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Repuesto
+--
++ nombre : str
++ proveedor : str
+- cantidad : int
++ precio : int
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>48</x>
+      <y>174</y>
+      <w>90</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Ubicacion
+&lt;&lt;enumeración&gt;&gt;
+--
+ENDOR
+CÚMULO RAIMOS
+NEBULOSA KALIIDA</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>402</x>
+      <y>462</y>
+      <w>66</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>Almacen
+--
++ nombre : str
++ ubicacion : str
++ catalogo : list</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>456</y>
+      <w>90</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Unidades Combate
+&lt;&lt;abstract&gt;&gt;
+--
++ id_combate : str
++ clave_cif : int</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>222</x>
+      <y>300</y>
+      <w>18</w>
+      <h>174</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;270.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>84</x>
+      <y>300</y>
+      <w>156</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>240.0;100.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>222</x>
+      <y>300</y>
+      <w>150</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;100.0;230.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>84</x>
+      <y>228</y>
+      <w>18</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>222</x>
+      <y>504</y>
+      <w>114</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;
+m1=1..*
+m2=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0;170.0;250.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>432</x>
+      <y>384</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1..*
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>108</x>
+      <y>480</y>
+      <w>90</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>336</x>
+      <y>510</y>
+      <w>120</w>
+      <h>156</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>170.0;10.0;170.0;100.0;10.0;240.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>222</x>
+      <y>228</y>
+      <w>18</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>192</x>
+      <y>174</y>
+      <w>78</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Clase
+&lt;&lt;enumeración&gt;&gt;
+--
+EJECUTOR
+ECLIPSE
+SOBERANO</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
