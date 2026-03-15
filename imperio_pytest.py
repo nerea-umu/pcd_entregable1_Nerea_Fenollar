@@ -2,57 +2,56 @@ import pytest
 from MiImperio import *
 
 
-# creamos fixtures para los tests:
-@pytest.fixture
-def almacen_pruebas():
-    almacen = Almacen("Base de Pruebas", "Sistema Alfa")
-    repuesto = Repuesto("Motor Iónico", 2, "Sienar", 1000.0)
-    almacen.agregar_repuesto(repuesto)
-    return almacen
-
-@pytest.fixture
-def mi_caza():
-    """Crea un caza para los tests."""
-    return Caza("TIE-Test", [], "ID-999", 1234, 1)
-
-
-# TEST DE SOLICITUD DE REPUESTOS
-def test_solicitar_repuesto_exitoso(almacen_pruebas, mi_caza):
-    repuesto = almacen_pruebas.buscar_repuesto('Motor Iónico')
-    mi_caza.solicitar_repuesto(almacen_pruebas, repuesto, 1234)
-
-    assert len(mi_caza.piezas) == 1
-    assert mi_caza.piezas[0].nombre == 'Motor Iónico'
-    assert repuesto.get_cantidad() == 1  
-
-
-# TEST DE SOLICITUD DE REPUESTOS CON CLAVE INCORRECTA
-def test_solicitar_repuesto_error_clave(almacen_pruebas, mi_caza):
-    repuesto = almacen_pruebas.buscar_repuesto('Motor Iónico')
-    with pytest.raises(ErrorImperio) as exc_info:
-        mi_caza.solicitar_repuesto(almacen_pruebas, repuesto, 9999)  # Clave incorrecta
-
-
-# TEST DE PIEZA YA INCLUIDA
-def test_pieza_ya_incluida(almacen_pruebas, mi_caza):
-    repuesto = almacen_pruebas.buscar_repuesto('Motor Iónico')
-    mi_caza.solicitar_repuesto(almacen_pruebas, repuesto, 1234)  # Primera solicitud exitosa
-    with pytest.raises(PiezaYaIncluida):
-        mi_caza.solicitar_repuesto(almacen_pruebas, repuesto, 1234)
-
-
-# TEST DE STOCK INSUFICIENTE
-def test_stock_limite_con_objeto(almacen_pruebas, mi_caza):
-    """Verifica que el objeto actualiza su stock correctamente hasta agotarse."""
-    repuesto = almacen_pruebas.buscar_repuesto("Motor Iónico")
-    
-    # El stock inicial es 2 (definido en la fixture)
-    mi_caza.solicitar_repuesto(almacen_pruebas, repuesto, 1234) # Queda 1
-    
-    # Creamos otra nave para agotar el stock
-    otra_nave = Caza("TIE-2", [], "ID-002", 5555, 1)
-    otra_nave.solicitar_repuesto(almacen_pruebas, repuesto, 5555) # Queda 0
-    
-    # Intentar sacar una tercera unidad del mismo objeto debe dar error
+# --- TESTS CLASE REPUESTO ---
+def test_repuesto_encapsulamiento():
+    r = Repuesto("Tuerca G-7", 10, "Sienar", 5.0)
+    assert r.get_cantidad() == 10
+    r.actualiza_stock(-3)
+    assert r.get_cantidad() == 7
     with pytest.raises(StockInsuficienteError):
-        repuesto.actualiza_stock(-1)
+        r.actualiza_stock(-10)
+
+# --- TESTS CLASE ALMACEN ---
+def test_almacen_gestion():
+    alm = Almacen("Base", "Hoth")
+    r = Repuesto("Panel", 1, "Kuat", 100.0)
+    alm.agregar_repuesto(r)
+    
+    assert alm.buscar_repuesto("Panel") == r
+    # Sacamos la pieza
+    alm.eliminar_repuesto("Panel", 1)
+    # Al llegar a 0, debería eliminarse del catálogo
+    assert alm.buscar_repuesto("Panel") is None
+
+# --- TESTS CLASE CAZA (Herencia de Nave) ---
+def test_caza_seguridad():
+    caza = Caza("TIE", [], "ID-1", 1234, 1)
+    # Clave correcta no debería hacer nada
+    caza.validar_clave(1234)
+    # Clave incorrecta lanza error
+    with pytest.raises(ClaveIncorrectaError):
+        caza.validar_clave(0000)
+
+# --- TESTS CLASE ESTACION ESPACIAL (Herencia Múltiple) ---
+def test_estacion_propiedades():
+    ee = Estacion_espacial("Estrella", [], "ID-S", 1, 100, 50, Ubicacion.ENDOR)
+    assert ee.get_capacidad() == 150
+    assert ee.ubicacion == Ubicacion.ENDOR
+
+# --- TEST INTEGRACIÓN: SOLICITAR REPUESTO (Con el objeto instancia) ---
+def test_flujo_solicitud_objeto():
+    alm = Almacen("Terminal", "Coruscant")
+    motor = Repuesto("Hyperdrive", 1, "Corellia", 5000.0)
+    alm.agregar_repuesto(motor)
+    
+    nave = Caza("Ala-X", [], "X-01", 111, 1)
+    
+    # Probamos tu nueva lógica: pasar la instancia 'motor'
+    nave.solicitar_repuesto(alm, motor, 111)
+    
+    assert len(nave.piezas) == 1
+    assert motor in nave.piezas
+    
+    # Test de error: Pieza ya incluida
+    with pytest.raises(PiezaYaIncluida):
+        nave.solicitar_repuesto(alm, motor, 111)
