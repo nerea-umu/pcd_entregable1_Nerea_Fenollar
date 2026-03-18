@@ -54,8 +54,6 @@ class Unidad_Combate(ABC):
 
 
 
-
-
 class Nave(Unidad_Combate):
     def __init__(self, id_combate : str, clave_cif : int, nombre : str, piezas : list = None):
         super().__init__(id_combate, clave_cif)
@@ -349,7 +347,6 @@ class MiImperio():
 if __name__ == "__main__":
     try:
         print("=== PROTOCOLO DE PRUEBAS DEL SISTEMA IMPERIAL ===\n")
-
     
         # 1. PRUEBA DE LA CLASE: Repuesto
         print("-------------Probando repuestos:-------------")
