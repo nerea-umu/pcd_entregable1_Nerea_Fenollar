@@ -66,7 +66,7 @@ class Nave(Unidad_Combate):
     
 
 
-    def solicitar_repuesto(self, almacen, repuesto):
+    def solicitar_repuesto(self, almacen, repuesto):  # y si solicitar_repuesto() lo llamase el imperio?
         if not isinstance(repuesto, Repuesto):
             raise ObjetoErroneo('El objeto proporcionado no es un repuesto válido. Debe ser una instancia de la clase Repuesto.')
 
@@ -216,7 +216,7 @@ class Almacen:
 
         return repuesto
     
-    def eliminar_almacen(self):
+    def _eliminar_almacen(self):
         self.catalogo.clear()
         print(f'El almacén "{self.nombre}" ha sido eliminado.')
     
@@ -241,6 +241,7 @@ class MiImperio():
         else:
             self.naves.append(nave)
     
+
     def eliminar_nave(self, nave : Nave):
         if not isinstance(nave, Nave):
             raise ObjetoErroneo('El objeto proporcionado no es una nave válida. Debe ser una instancia de la clase Nave.')
@@ -249,17 +250,29 @@ class MiImperio():
         else:
             self.naves.remove(nave)
     
+
     def get_nave(self, nombre : str):
         for nave in self.naves:
             if nave.nombre == nombre:
                 return nave
         return None
     
+
     def listar_naves(self):
         print(f'Naves del Imperio {self.nombre}:')
         for nave in self.naves:
             print(f'-{nave}')
         print()
+
+    def reparar_nave(self, nave, almacen, repuesto):
+        if not isinstance(nave, Nave):
+            raise ObjetoErroneo('El objeto proporcionado no es una nave válida. Debe ser una instancia de la clase Nave.')
+        if not isinstance(almacen, Almacen):
+            raise ObjetoErroneo('El objeto proporcionado no es un almacén válido. Debe ser una instancia de la clase Almacen.')
+        if not isinstance(repuesto, Repuesto):
+            raise ObjetoErroneo('El objeto proporcionado no es un repuesto válido. Debe ser una instancia de la clase Repuesto.')
+        
+        nave.solicitar_repuesto(almacen, repuesto)
     
 
 
@@ -279,7 +292,7 @@ class MiImperio():
         else:
             for almacen in self.almacenes:
                 if almacen.nombre == almacen.nombre:
-                    almacen.eliminar_almacen()
+                    almacen._eliminar_almacen()
                     self.almacenes.remove(almacen)
     
     def get_almacen(self, nombre : str):
@@ -297,20 +310,27 @@ class MiImperio():
 
 
 
-    def comprar_repuesto(self, repuesto : Repuesto):
+    def comprar_repuesto(self, repuesto : Repuesto, almacen : Almacen):
         if not isinstance(repuesto, Repuesto):
             raise ObjetoErroneo('El objeto proporcionado no es un repuesto válido. Debe ser una instancia de la clase Repuesto.')
+        if not isinstance(almacen, Almacen):
+            raise ObjetoErroneo('El objeto proporcionado no es un almacén válido. Debe ser una instancia de la clase Almacen.')
+        almacen.agregar_repuesto(repuesto)
         self.repuestos.append(repuesto)
     
     def vender_repuesto(self, repuesto : Repuesto):
         if not isinstance(repuesto, Repuesto):
             raise ObjetoErroneo('El objeto proporcionado no es un repuesto válido. Debe ser una instancia de la clase Repuesto.')
+        for almacen in self.almacenes:
+            if repuesto in almacen.catalogo:
+                almacen.eliminar_repuesto(repuesto, 1)
+                break
         self.repuestos.remove(repuesto)
     
     def listar_repuestos(self):
         print(f'Repuestos del Imperio {self.nombre}:')
-        for repuesto in self.repuestos:
-            print(f'-{repuesto}')
+        for almacen in self.almacenes:  
+            almacen.ver_catalogo()
         print()
 
 
