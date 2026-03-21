@@ -348,10 +348,10 @@ class MiImperio():
         if almacen not in self.almacenes:
             raise PiezaNoEncontradaError(f'El almacén "{almacen.nombre}" no se encuentra en el imperio.')
         else:
-            for almacen in self.almacenes:
-                if almacen.nombre == almacen.nombre:
+            for a in self.almacenes:
+                if a.nombre == almacen.nombre:
                     almacen._eliminar_almacen()    # Si se elimina un almacén, también se eliminan todos los repuestos de su catálogo.
-                    self.almacenes.remove(almacen) # y se elimina el almacén de la lista de almacenes del imperio.
+                    self.almacenes.remove(a) # y se elimina el almacén de la lista de almacenes del imperio.
     
 
     def get_almacen(self, nombre : str):  # Método para buscar un almacén por su nombre.
@@ -384,13 +384,21 @@ class MiImperio():
     def vender_repuesto(self, repuesto : Repuesto):  # Método para vender un repuesto si ya no se necesita.
         if not isinstance(repuesto, Repuesto):
             raise ObjetoErroneo('El objeto proporcionado no es un repuesto válido. Debe ser una instancia de la clase Repuesto.')
+            
+        encontrado = False
         for almacen in self.almacenes:
             if repuesto in almacen.catalogo:
                 almacen.eliminar_repuesto(repuesto, 1)  # El imperio debe gestionar la eliminación de repuestos de los almacenes a través de este método
+                encontrado = True
                 break
+        if not encontrado:   # Con esto nos aseguramos de que si el repuesto no se encuentra en ningún almacén del imperio, no se pueda vender y se lance una excepción.
+            raise PiezaNoEncontradaError(f'El repuesto "{repuesto.nombre}" no se encuentra en ningún almacén del imperio.')
+        
         self.balance += repuesto.get_precio()           # Se suma el precio del repuesto al balance del imperio
         self.repuestos.remove(repuesto)                 # y eliminarlo de su lista de repuestos.
     
+
+
     def listar_repuestos(self):  # Método básico para listar todos los repuestos del imperio, muestra los repuestos de cada almacén.
         print(f'Repuestos del Imperio {self.nombre}:')
         for almacen in self.almacenes:  
