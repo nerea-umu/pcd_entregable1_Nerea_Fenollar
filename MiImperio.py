@@ -419,7 +419,6 @@ if __name__ == "__main__":
         print("=== PROTOCOLO DE PRUEBAS DEL SISTEMA IMPERIAL ===\n")
         imperio = MiImperio("Imperio Galáctico", 500000000.0)
     
-        # 1. PRUEBA DE LA CLASE: Repuesto
         print("-------------Probando repuestos:-------------")
         r_motor = Repuesto("Motor Iónico S-1", 5, "Sienar Fleet Systems", 2500.0)
         r_laser = Repuesto("Cañón Láser pesado", 2, "Kuat Drive Yards", 1200.0)
@@ -430,7 +429,7 @@ if __name__ == "__main__":
         r_motor2 = Repuesto("Motor Sónico S-8", 4, "Sienar Fleet Systems", 4500.0)
         r_pantalla = Repuesto("Pantalla táctil P-12", 2, "Kuat Drive Yards", 1200.0)
 
-        # 2. PRUEBA DE LA CLASE: Almacen
+
         print("\n-------------Probando almacenes:-------------")
         almacen_central = Almacen("Almacén de Coruscant", "Sector 4")
         imperio.agregar_almacen(almacen_central)
@@ -449,7 +448,7 @@ if __name__ == "__main__":
         almacen_jhonson.ver_catalogo()
 
 
-        # 3. PRUEBA DE LA CLASE: Caza (Herencia de Nave)
+    
         print("\n-------------Probando cazas:-------------")
         tie_vader = Caza("TIE Advanced x1", [], "VADER-01", 1138, 1)
         imperio.agregar_nave(tie_vader)
@@ -461,7 +460,7 @@ if __name__ == "__main__":
         tie_vader.ver_piezas()
 
 
-        # 4. PRUEBA DE LA CLASE: Nave_estelar (Herencia Múltiple y Enum Clase)
+
         print("\n-------------Probando Nave Estelar:-------------")
         ejecutor1 = Nave_estelar("Ejecutor-001", [], "EXEC-001", 9003, 50000, 38000, Clase.EJECUTOR)
         imperio.agregar_nave(ejecutor1)
@@ -471,7 +470,7 @@ if __name__ == "__main__":
         ejecutor1.ver_piezas()
 
 
-        # 5. PRUEBA DE LA CLASE: Estacion_espacial (Herencia Múltiple y Enum Ubicación)
+
         print("\n-------------Probando Estación Espacial:-------------")
         estrella_muerte = Estacion_espacial("Estrella de la Muerte", [], "DS-01", 4439, 250000, 1000000, Ubicacion.ENDOR)
         imperio.agregar_nave(estrella_muerte)
@@ -482,7 +481,7 @@ if __name__ == "__main__":
         print(f'Capacidad total de la estación: {estrella_muerte.get_capacidad()} mandalorianos')
 
 
-        # 6. PRUEBA DE LA CLASE: MiImperio (Gestión de colecciones)
+
         print("\n-------------Probando Imperio:-------------")
         imperio.listar_naves()
         imperio.get_nave("TIE Advanced x1").ver_piezas()
@@ -493,26 +492,26 @@ if __name__ == "__main__":
         print(f'Balance del imperio después de vender un repuesto: ${imperio.get_balance():.2f}')
 
 
-        # 8. PRUEBA DE EXCEPCIONES:
+
         print("\n-------------Probando Excepciones:-------------")
         
         # Error 1: Pieza ya incluida
         try:
             tie_vader.solicitar_repuesto(almacen_central, r_motor)
         except PiezaYaIncluida as e:
-            print(f"   [CAPTURA] Error esperado: {e}")
+            print(f"--Error esperado: {e}")
 
         # Error 2: Stock insuficiente
         try:
             almacen_central.eliminar_repuesto(r_laser, 10) # Pedimos 10 pero solo hay 2
         except StockInsuficienteError as e:
-            print(f"   [CAPTURA] Error esperado: {e}")
+            print(f"--Error esperado: {e}")
 
         # Error 3: Objeto Erróneo
         try:
             almacen_central.agregar_repuesto("Esto no es una pieza")
         except ObjetoErroneo as e:
-            print(f"   [CAPTURA] Error esperado: {e}")
+            print(f"--Error esperado: {e}")
 
         print("\n=== PRUEBAS FINALIZADAS CON ÉXITO ===")
 
